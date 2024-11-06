@@ -65,20 +65,53 @@ class ProductController extends Controller
     }
 
     //edit
-    public function edit()
+    public function edit($id)
     {
-        return view('pages.products.index');
+        $product = Product::findOrFail($id);
+        $categories = DB::table('categories')->get();
+        return view('pages.products.edit', compact('product', 'categories'));
     }
 
     //update
-    public function update()
+    public function update(Request $request, $id)
     {
-        return view('pages.products.index');
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required|numeric',
+            'stock' => 'required|numeric',
+            'category_id' => 'required',
+            'status' => 'required|boolean',
+            'is_favorite' => 'required|boolean',
+        ]);
+
+        $product =  Product::find($id);
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+        $product->category_id = $request->category_id;
+        $product->image = $request->image;
+        $product->status = $request->status;
+        $product->is_favorite = $request->is_favorite;
+        $product->save();
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $image->storeAs('public/products', $product->id . '.' . $image->getClientOriginalExtension());
+            $product->image = 'storage/products/' . $product->id . '.' . $image->getClientOriginalExtension();
+            $product->save();
+        }
+
+        return redirect()->route('products.index')->with('success', 'Product created successfully');
     }
 
     //destroy
-    public function destroy()
+    public function destroy($id)
     {
-        return view('pages.products.index');
+        $user = Product::find($id);
+        $user->delete();
+
+        return redirect()->route('products.index')->with('success', 'User deleted successfully');
     }
 }
