@@ -25,5 +25,12 @@
                         <a class="nav-link" href="{{ route('products.index') }}">Products</a>
                     </li>
                 </ul>
+                <ul class="dropdown-menu">
+                    <li class=''>
+                        <a class="nav-link" href="{{ route('categories.index') }}">Category</a>
+                    </li>
+                </ul>
             </li>
+        </ul>
+    </aside>
 </div>
