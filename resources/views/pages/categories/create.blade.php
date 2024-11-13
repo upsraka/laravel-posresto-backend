@@ -61,8 +61,6 @@
                                     </div>
                                 @enderror
                             </div>
-
-
                             <div class="form-group">
                                 <label class="form-label">Photo Category</label>
                                 <div class="col-sm-9">
@@ -75,9 +73,6 @@
                                     </div>
                                 @enderror
                             </div>
-
-
-
                         </div>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary">Submit</button>
